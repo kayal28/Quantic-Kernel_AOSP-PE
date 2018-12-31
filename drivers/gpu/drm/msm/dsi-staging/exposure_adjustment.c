@@ -102,6 +102,7 @@ static int ea_panel_send_pcc(u32 bl_lvl)
 	else
 		ea_coeff = EXPOSURE_ADJUSTMENT_MAX;
 
+	pr_info("ea_coeff = %X\n", ea_coeff);
 	r_data = ea_coeff;
 	g_data = ea_coeff;
 	b_data = ea_coeff;
@@ -123,11 +124,6 @@ void ea_panel_mode_ctrl(struct dsi_panel *panel, bool enable)
 	}
 }
 
-bool ea_panel_is_enabled(void)
-{
-	return pcc_backlight_enable;
-}
-
 u32 ea_panel_calc_backlight(u32 bl_lvl)
 {
 	last_level = bl_lvl;
@@ -141,36 +137,3 @@ u32 ea_panel_calc_backlight(u32 bl_lvl)
 		return bl_lvl;
 	}
 }
-
-#ifdef EA_UDFP_WORKAROUND
-static struct delayed_work restore_backlight_work;
-
-static void restore_backlight(struct work_struct *work)
-{
-	pr_info("Resture backlight to %d\n", last_level);
-	ea_panel_calc_backlight(last_level);
-}
-
-void ea_panel_udfp_workaround(void)
-{
-	cancel_delayed_work_sync(&restore_backlight_work);
-	if (pcc_backlight_enable)
-		schedule_delayed_work(&restore_backlight_work, msecs_to_jiffies(EA_UDFP_UNLOCK_DELAY));
-}
-
-static int __init ea_panel_init(void)
-{
-	INIT_DELAYED_WORK(&restore_backlight_work, restore_backlight);
-
-	return 0;
-}
-
-static void __exit ea_panel_exit(void)
-{
-	return;
-}
-
-module_init(ea_panel_init);
-module_exit(ea_panel_exit);
-
-#endif

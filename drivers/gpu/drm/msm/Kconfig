@@ -202,12 +202,13 @@ config FENCE_DEBUG
 	bool "Print fence name to userspace"
 	depends on DRM_MSM
 	default n
-	
+
 config KLAPSE
     bool CONFIG_KLAPSE
     default n
     help
         A simple rgb dynamic lapsing module similar to LineageOS' livedisplay
+
 
 config EXPOSURE_ADJUSTMENT
 	bool "Enable exposure adjustment driver"

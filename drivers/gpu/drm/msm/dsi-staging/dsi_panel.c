@@ -53,8 +53,6 @@
 #include <asm/uaccess.h>
 #include <asm/fcntl.h>
 
-#include <drm/drm_notifier.h>
-
 #define DSI_READ_WRITE_PANEL_DEBUG 1
 #if DSI_READ_WRITE_PANEL_DEBUG
 #include <linux/proc_fs.h>
@@ -62,9 +60,6 @@
 #endif
 
 #include "../../../../../kernel/irq/internals.h"
-
-#include "dsi_panel_mi.h"
-
 
 #ifdef CONFIG_EXPOSURE_ADJUSTMENT
 #include "exposure_adjustment.h"

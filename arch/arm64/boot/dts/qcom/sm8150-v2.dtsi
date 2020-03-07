@@ -623,7 +623,7 @@
 
 	qcom,gpu-speed-bin = <0x4130 0xe0000000 29>;
 
-/*	/delete-node/qcom,gpu-pwrlevels; */
+	/delete-node/qcom,gpu-pwrlevels;
 	qcom,gpu-pwrlevel-bins {
 		#address-cells = <1>;
 		#size-cells = <0>;

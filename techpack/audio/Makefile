@@ -53,5 +53,8 @@ endif
 
 obj-y += soc/
 obj-y += dsp/
+#for mius start
+ifeq ($(CONFIG_US_PROXIMITY), y)
+endif
 obj-y += ipc/
 obj-y += asoc/

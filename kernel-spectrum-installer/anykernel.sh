@@ -37,7 +37,7 @@ dump_boot;
 
 # begin ramdisk changes
 if [ -d $ramdisk/.backup ]; then
-  ui_print " "; ui_print "Magisk detected! Patching cmdline so reflashing Magisk is not necessary...";
+  ui_print " "; ui_print "Patching ramdisk...";
   patch_cmdline "skip_override" "skip_override";
 else
   patch_cmdline "skip_override" "";
@@ -52,17 +52,18 @@ if [ -d $ramdisk/.backup ]; then
 	cp -f /system_root/init.rc $ramdisk/overlay.d
 	sleep 2
 		insert_line $ramdisk/overlay.d/init.rc "init.spectrum.rc" after 'import /init.usb.rc' "import /init.spectrum.rc"
-		ui_print "-> SELinux Permissive, Spectrum on"
+		ui_print "-> Spectrum installed succesfully"
     set_perm_recursive 0 0 750 750 $ramdisk/*
 fi;
 	
 
-#Thanks to pappschlumpf for the conditional spectrum installer :D
+#Thanks to pappschlumpf for the ramdisk detection method :D
 
 # end ramdisk changes
 write_boot;
 ## end install
 
+ui_print "-> Please reinstall Magisk_20.3"
 ui_print " ";
 ui_print " ";
 ui_print "Quantic has been succesfully installed!";

@@ -19,13 +19,18 @@
 #include <linux/of_gpio.h>
 #include <linux/pwm.h>
 #include <video/mipi_display.h>
-
 #include "dsi_panel.h"
 #include "dsi_ctrl_hw.h"
 #include "dsi_parser.h"
-
+#include <linux/pm_wakeup.h>
+#include <linux/msm_drm_notify.h>
+#include <linux/notifier.h>
+#include <linux/string.h>
+#include <linux/display_state.h>
+#include "dsi_drm.h"
+#include "dsi_display.h"
 #ifdef CONFIG_KLAPSE
-#include "../sde/klapse.h"
+#include <linux/klapse.h>
 #endif
 
 /**

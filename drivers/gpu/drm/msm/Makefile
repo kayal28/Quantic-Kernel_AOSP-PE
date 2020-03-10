@@ -130,7 +130,6 @@ msm_drm-$(CONFIG_DRM_MSM_DSI_28NM_PHY) += dsi/phy/dsi_phy_28nm.o
 msm_drm-$(CONFIG_DRM_MSM_DSI_20NM_PHY) += dsi/phy/dsi_phy_20nm.o
 msm_drm-$(CONFIG_DRM_MSM_DSI_28NM_8960_PHY) += dsi/phy/dsi_phy_28nm_8960.o
 msm_drm-$(CONFIG_DRM_MSM_DSI_14NM_PHY) += dsi/phy/dsi_phy_14nm.o
-msm_drm-$(CONFIG_KLAPSE) += sde/klapse.o
 
 ifeq ($(CONFIG_DRM_MSM_DSI_PLL),y)
 msm_drm-y += dsi/pll/dsi_pll.o

@@ -9,12 +9,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+#include <linux/moduleparam.h>
 #include <drm/msm_drm_pp.h>
 #include "sde_hw_color_proc_common_v4.h"
 #include "sde_hw_color_proc_v4.h"
 
 #ifdef CONFIG_KLAPSE
-#include "klapse.h"
+#include <linux/klapse.h>
 
 unsigned short kcal_red = 256;
 unsigned short kcal_green = 256;
@@ -230,12 +231,21 @@ void sde_setup_dspp_pccv4(struct sde_hw_dspp *ctx, void *cfg)
 	struct drm_msm_pcc *pcc_cfg;
 	struct drm_msm_pcc_coeff *coeffs = NULL;
 	int i = 0;
+	int kcal_min = 0;
 	u32 base = 0;
+	u32 opcode = 0, local_opcode = 0;
 
 	if (!ctx || !cfg) {
 		DRM_ERROR("invalid param ctx %pK cfg %pK\n", ctx, cfg);
 		return;
 	}
+
+	if (kcal_red < kcal_min)
+		kcal_red = kcal_min;
+	if (kcal_green < kcal_min)
+		kcal_green = kcal_min;
+	if (kcal_blue < kcal_min)
+		kcal_blue = kcal_min;
 
 	if (!hw_cfg->payload) {
 		DRM_DEBUG_DRIVER("disable pcc feature\n");
@@ -295,6 +305,31 @@ void sde_setup_dspp_pccv4(struct sde_hw_dspp *ctx, void *cfg)
 		SDE_REG_WRITE(&ctx->hw, base + PCC_GB_OFF, coeffs->gb);
 		SDE_REG_WRITE(&ctx->hw, base + PCC_RGB_OFF, coeffs->rgb);
 	}
+
+	SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->pcc.base, PCC_EN);
+
+	// HUE
+	SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->hsic.base + PA_HUE_OFF,
+		kcal_hue & PA_HUE_MASK);
+	local_opcode |= PA_HUE_EN;
+
+	// SATURATION
+	SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->hsic.base + PA_SAT_OFF,
+		kcal_sat & PA_SAT_MASK);
+	local_opcode |= PA_SAT_EN;
+
+	// VALUE
+	SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->hsic.base + PA_VAL_OFF,
+		kcal_val & PA_VAL_MASK);
+	local_opcode |= PA_VAL_EN;
+
+	// CONTRAST
+	SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->hsic.base + PA_CONT_OFF,
+		kcal_cont & PA_CONT_MASK);
+	local_opcode |= PA_CONT_EN;
+
+	opcode |= (local_opcode | PA_EN);
+	SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->hsic.base, opcode);
 
 	SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->pcc.base, PCC_EN);
 }

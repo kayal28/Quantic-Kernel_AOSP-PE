@@ -738,7 +738,7 @@ config NR_CPUS
 	default "64"
 
 config LITTLE_CPU_MASK
-
+    int
 	help
 	  This is a bitmask specifying which of the CPUs are LITTLE in a
 	  heterogeneous system. Use 0 if you are unsure, which just results in

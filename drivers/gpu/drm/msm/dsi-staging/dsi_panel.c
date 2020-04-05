@@ -19,35 +19,10 @@
 #include <linux/of_gpio.h>
 #include <linux/pwm.h>
 #include <video/mipi_display.h>
+
 #include "dsi_panel.h"
 #include "dsi_ctrl_hw.h"
 #include "dsi_parser.h"
-#include <linux/pm_wakeup.h>
-#include <linux/msm_drm_notify.h>
-#include <linux/notifier.h>
-#include <linux/string.h>
-#include <linux/display_state.h>
-#include "dsi_drm.h"
-#include "dsi_display.h"
-#ifdef CONFIG_KLAPSE
-#include <linux/klapse.h>
-#endif
-
-#include <linux/fs.h>
-#include <asm/uaccess.h>
-#include <asm/fcntl.h>
-
-#define DSI_READ_WRITE_PANEL_DEBUG 1
-#if DSI_READ_WRITE_PANEL_DEBUG
-#include <linux/proc_fs.h>
-#include <linux/seq_file.h>
-#endif
-
-#include "../../../../../kernel/irq/internals.h"
-
-#ifdef CONFIG_EXPOSURE_ADJUSTMENT
-#include "exposure_adjustment.h"
-#endif
 
 #include <linux/fs.h>
 #include <asm/uaccess.h>
@@ -802,10 +777,6 @@ int dsi_panel_set_backlight(struct dsi_panel *panel, u32 bl_lvl)
 		pr_err("Backlight type(%d) not supported\n", bl->type);
 		rc = -ENOTSUPP;
 	}
-	
-#ifdef CONFIG_KLAPSE
-	set_rgb_slider(bl_lvl);
-#endif
 
 	return rc;
 }

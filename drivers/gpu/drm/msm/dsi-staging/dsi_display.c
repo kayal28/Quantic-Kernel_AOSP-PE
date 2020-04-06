@@ -4978,7 +4978,7 @@ static ssize_t sysfs_doze_status_write(struct device *dev,
 		return -EINVAL;
 	}
 
-	rc = kstrtoint(buf, 10, &state);
+	rc = kstrtoint(buf, 10, &status);
 	if (rc) {
 		pr_err("%s: kstrtoint failed. rc=%d\n", __func__, rc);
 		return rc;

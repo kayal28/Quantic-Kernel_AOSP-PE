@@ -2260,11 +2260,11 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
 		return ret;
 
     /* Limit little cluster frequency to 403MHz */
-    if (cpumask_test_cpu(new_policy->cpu, cpu_lp_mask))
+    if (cpumask_test_cpu(policy->cpu, cpu_lp_mask))
 		cpufreq_verify_within_limits(policy,policy->cpuinfo.min_freq, 403200);
 
     /* Limit BIG cluster minimum frequency to 825MHz */
-    if (cpumask_test_cpu(new_policy->cpu, cpu_perf_mask))
+    if (cpumask_test_cpu(policy->cpu, cpu_perf_mask))
 		cpufreq_verify_within_limits(policy,policy->cpuinfo.min_freq, 825600);
 
 	/* adjust if necessary - all reasons */
